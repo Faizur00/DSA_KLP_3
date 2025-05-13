@@ -1,185 +1,100 @@
+# AI Prompt dan Analisis
 
-###  **Penjelasan Singkat:**
+**Link Percakapan:**  
+- https://chatgpt.com/share/6822e705-dd60-800b-8c92-88663fb74580
 
-Kita menggunakan dua stack:
+### Prompt (Sumber Soal)
+Buatlah kode dalam bahasa pemrograman apa saja untuk mengimplementasikan antrian (queue) menggunakan dua tumpukan (stacks) dengan operasi:
+1. **Enqueue**: Menambahkan elemen ke ujung antrian.
+2. **Dequeue**: Menghapus elemen dari depan antrian dan mengembalikan nilainya.
+3. **Front**: Mengembalikan elemen di depan antrian tanpa menghapusnya.
 
-* `stack_enqueue` untuk **menambahkan elemen (push)**.
-* `stack_dequeue` untuk **menghapus atau mengakses elemen paling depan**.
+Kemudian, proses beberapa query yang terdiri dari:
+- `1 x`: Enqueue elemen `x` ke antrian.
+- `2`: Dequeue elemen depan antrian.
+- `3`: Cetak elemen depan antrian.
 
-Saat `stack_dequeue` kosong dan kita perlu melakukan dequeue atau melihat elemen depan (query 2 dan 3), kita **pindahkan semua elemen dari `stack_enqueue` ke `stack_dequeue`** (proses ini membalik urutan, sehingga elemen pertama akan berada di atas `stack_dequeue`).
+### Penjelasan Soal
+Antrian (queue) adalah struktur data abstrak yang mengikuti prinsip **First-In-First-Out (FIFO)**, artinya elemen yang pertama dimasukkan akan menjadi elemen pertama yang dikeluarkan.
 
----
+📎 **Detail:**
+1. **Operasi Dasar:**
+   - **Enqueue**: Menambahkan elemen baru ke ujung belakang antrian.
+   - **Dequeue**: Menghapus elemen dari depan antrian.
+   - **Front/Peek**: Melihat elemen di depan antrian tanpa menghapusnya.
 
+2. **Implementasi dengan Dua Stack:**
+   - Stack bersifat **LIFO (Last-In-First-Out)**, kebalikan dari queue.
+   - Untuk mengimplementasikan queue, kita perlu dua stack:
+     - **Stack1** untuk operasi enqueue.
+     - **Stack2** untuk operasi dequeue.
+   - Ketika `stack2` kosong, pindahkan semua elemen dari `stack1` ke `stack2` (membalik urutan elemen).
 
-### ✅ **Contoh Input:**
+3. **Contoh Input/Output:**
+   - **Input:**
+     ```
+     10      (jumlah query)
+     1 42    (enqueue 42)
+     2       (dequeue)
+     1 14    (enqueue 14)
+     3       (print front → 14)
+     1 28    (enqueue 28)
+     3       (print front → 14)
+     1 60    (enqueue 60)
+     1 78    (enqueue 78)
+     2       (dequeue)
+     2       (dequeue)
+     ```
+   - **Output:**
+     ```
+     14
+     14
+     ```
 
-```
-10
-1 42
-2
-1 14
-3
-1 28
-3
-1 60
-1 78
-2
-2
-```
+### Pertanyaan Soal
+- Bagaimana cara mengimplementasikan operasi queue (enqueue, dequeue, front) menggunakan dua stack?
+- Bagaimana memastikan prinsip FIFO tetap terjaga meskipun menggunakan struktur LIFO?
 
-### ✅ **Output:**
+### Tujuan
+- Mengimplementasikan antrian dengan dua tumpukan secara efisien.
+- Memproses query sesuai jenis operasinya (enqueue/dequeue/front).
+- Menjamin kompleksitas waktu amortized O(1) untuk setiap operasi.
 
-```
-14
-14
-```
+### Analisis dan Pendekatan Solusi
 
----
+#### 1. **Struktur Data**
+   - **Stack1**: Digunakan untuk menampung elemen yang di-enqueue.
+   - **Stack2**: Digunakan untuk operasi dequeue/front. Jika kosong, elemen dari `stack1` dipindahkan ke `stack2` (membalik urutan).
 
-##  **Tujuan Program**
+#### 2. **Operasi Utama**
+   - **Enqueue**:
+     - Langsung push ke `stack1` → O(1).
+   - **Dequeue**:
+     - Jika `stack2` kosong, pindahkan semua elemen dari `stack1` ke `stack2` → O(n) (kasus terburuk, tapi amortized O(1)).
+     - Pop dari `stack2` → O(1).
+   - **Front**:
+     - Mirip dengan dequeue, tetapi hanya melihat elemen teratas `stack2` tanpa menghapus.
 
-Membuat antrian (queue) menggunakan **dua buah stack**, lalu menjalankan perintah berdasarkan input:
+#### 3. **Kompleksitas Waktu**
+   - **Enqueue**: O(1).
+   - **Dequeue**: O(1) amortized (karena setiap elemen hanya dipindahkan sekali dari `stack1` ke `stack2`).
+   - **Front**: O(1) amortized.
 
-* **1 x** → Tambahkan elemen ke belakang antrian.
-* **2** → Hapus elemen dari depan antrian.
-* **3** → Cetak elemen yang ada di depan antrian.
+#### 4. **Ilustrasi Contoh**
+   - **Enqueue 42, 14, 28**:
+     - `stack1`: [42, 14, 28] (top = 28)
+     - `stack2`: []
+   - **Dequeue**:
+     - Pindahkan semua ke `stack2`: [28, 14, 42] (top = 42)
+     - Pop 42 → `stack2`: [28, 14]
+   - **Front**:
+     - Lihat 14 (tanpa pop).
 
----
-
-##  **Struktur Data yang Digunakan**
-
-```cpp
-stack<int> stack_enqueue;  // untuk enqueue (penambahan)
-stack<int> stack_dequeue;  // untuk dequeue dan melihat elemen depan
-```
-
-Kenapa dua stack?
-
-* Karena **stack bersifat LIFO (Last-In, First-Out)**, sedangkan **queue harus FIFO (First-In, First-Out)**.
-* Maka, kita menggunakan dua stack untuk **membalik urutan**, sehingga kita bisa meniru perilaku queue.
-
----
-
-##  **Penjelasan Fungsi `shiftStacks`**
-
-```cpp
-void shiftStacks(stack<int>& s1, stack<int>& s2) {
-    if (s2.empty()) {
-        while (!s1.empty()) {
-            s2.push(s1.top());
-            s1.pop();
-        }
-    }
-}
-```
-
-### Fungsi ini melakukan:
-
-* Memindahkan semua elemen dari `stack_enqueue` (s1) ke `stack_dequeue` (s2) **jika** `stack_dequeue` kosong.
-* Saat dipindah, elemen yang duluan masuk akan berada di atas `stack_dequeue`, sehingga bisa diakses pertama → mirip antrian (FIFO).
-
----
-
-##  **Bagian `main()`**
-
-```cpp
-int q;
-cin >> q;
-```
-
-* Membaca banyaknya query dari input.
-
-```cpp
-stack<int> stack_enqueue;
-stack<int> stack_dequeue;
-```
-
-* Dua stack untuk menyimpan dan memproses data antrian.
-
----
-
-###  Perulangan untuk memproses query:
-
-```cpp
-for (int i = 0; i < q; ++i) {
-    int type;
-    cin >> type;
-```
-
-* Baca jenis query (1, 2, atau 3).
-
----
-
-###  **Query 1 x → Enqueue**
-
-```cpp
-if (type == 1) {
-    int x;
-    cin >> x;
-    stack_enqueue.push(x);
-}
-```
-
-* Tambahkan elemen `x` ke `stack_enqueue`.
-
----
-
-###  **Query 2 → Dequeue**
-
-```cpp
-else if (type == 2) {
-    shiftStacks(stack_enqueue, stack_dequeue);
-    if (!stack_dequeue.empty()) {
-        stack_dequeue.pop();
-    }
-}
-```
-
-* Pertama, **pindahkan** elemen dari `stack_enqueue` ke `stack_dequeue` **jika perlu**.
-* Kemudian, hapus elemen paling atas dari `stack_dequeue`, yang mewakili elemen paling depan dalam antrian.
-
----
-
-###  **Query 3 → Print front element**
-
-```cpp
-else if (type == 3) {
-    shiftStacks(stack_enqueue, stack_dequeue);
-    if (!stack_dequeue.empty()) {
-        cout << stack_dequeue.top() << endl;
-    }
-}
-```
-
-* Sama seperti query 2, tapi **tidak menghapus**, hanya mencetak elemen paling depan.
-
----
-
-##  **Ilustrasi Sederhana**
-
-Misalnya input:
-
-```
-1 5
-1 10
-1 15
-3
-2
-3
-```
-
-1. Enqueue 5 → stack\_enqueue = \[5]
-2. Enqueue 10 → stack\_enqueue = \[5, 10]
-3. Enqueue 15 → stack\_enqueue = \[5, 10, 15]
-4. Cetak front:
-
-   * Pindahkan semua dari stack\_enqueue → stack\_dequeue = \[15, 10, 5]
-   * Cetak top dari stack\_dequeue → hasil = **5**
-5. Dequeue → hapus top dari stack\_dequeue (5)
-6. Cetak front → top dari stack\_dequeue = **10**
-
----
-
-Kalau kamu ingin, saya juga bisa bantu buat versi dengan visualisasi langkah per langkah atau animasi stack-nya (teks). Mau?
+#### 5. **Keuntungan Pendekatan**
+   - Memanfaatkan sifat stack untuk membalik urutan elemen saat dipindahkan ke `stack2`.
+   - Operasi dequeue/front efisien karena tidak perlu membalik stack setiap saat.
 
 
+### Kesimpulan
+- Dengan dua stack, kita bisa mensimulasikan antrian yang memenuhi FIFO.
+- Kunci solusi adalah memindahkan elemen dari `stack1` ke `stack2` hanya ketika `stack2` kosong, sehingga operasi dequeue/front tetap efisien.
