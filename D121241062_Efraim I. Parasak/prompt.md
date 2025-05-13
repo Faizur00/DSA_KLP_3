@@ -1,4 +1,38 @@
-Tentu! Mari kita **uraikan dan jelaskan kode program C++** di atas **bagian per bagian** supaya kamu benar-benar paham maksud dan cara kerjanya.
+
+###  **Penjelasan Singkat:**
+
+Kita menggunakan dua stack:
+
+* `stack_enqueue` untuk **menambahkan elemen (push)**.
+* `stack_dequeue` untuk **menghapus atau mengakses elemen paling depan**.
+
+Saat `stack_dequeue` kosong dan kita perlu melakukan dequeue atau melihat elemen depan (query 2 dan 3), kita **pindahkan semua elemen dari `stack_enqueue` ke `stack_dequeue`** (proses ini membalik urutan, sehingga elemen pertama akan berada di atas `stack_dequeue`).
+
+---
+
+
+### ✅ **Contoh Input:**
+
+```
+10
+1 42
+2
+1 14
+3
+1 28
+3
+1 60
+1 78
+2
+2
+```
+
+### ✅ **Output:**
+
+```
+14
+14
+```
 
 ---
 
