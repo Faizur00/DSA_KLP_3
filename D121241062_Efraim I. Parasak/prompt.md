@@ -2,7 +2,7 @@ Tentu! Mari kita **uraikan dan jelaskan kode program C++** di atas **bagian per 
 
 ---
 
-## 🔶 **Tujuan Program**
+##  **Tujuan Program**
 
 Membuat antrian (queue) menggunakan **dua buah stack**, lalu menjalankan perintah berdasarkan input:
 
@@ -12,7 +12,7 @@ Membuat antrian (queue) menggunakan **dua buah stack**, lalu menjalankan perinta
 
 ---
 
-## 🔷 **Struktur Data yang Digunakan**
+##  **Struktur Data yang Digunakan**
 
 ```cpp
 stack<int> stack_enqueue;  // untuk enqueue (penambahan)
@@ -26,7 +26,7 @@ Kenapa dua stack?
 
 ---
 
-## 🔷 **Penjelasan Fungsi `shiftStacks`**
+##  **Penjelasan Fungsi `shiftStacks`**
 
 ```cpp
 void shiftStacks(stack<int>& s1, stack<int>& s2) {
@@ -46,7 +46,7 @@ void shiftStacks(stack<int>& s1, stack<int>& s2) {
 
 ---
 
-## 🔷 **Bagian `main()`**
+##  **Bagian `main()`**
 
 ```cpp
 int q;
@@ -64,7 +64,7 @@ stack<int> stack_dequeue;
 
 ---
 
-### 🔸 Perulangan untuk memproses query:
+###  Perulangan untuk memproses query:
 
 ```cpp
 for (int i = 0; i < q; ++i) {
@@ -76,7 +76,7 @@ for (int i = 0; i < q; ++i) {
 
 ---
 
-### 📌 **Query 1 x → Enqueue**
+###  **Query 1 x → Enqueue**
 
 ```cpp
 if (type == 1) {
@@ -90,7 +90,7 @@ if (type == 1) {
 
 ---
 
-### 📌 **Query 2 → Dequeue**
+###  **Query 2 → Dequeue**
 
 ```cpp
 else if (type == 2) {
@@ -106,7 +106,7 @@ else if (type == 2) {
 
 ---
 
-### 📌 **Query 3 → Print front element**
+###  **Query 3 → Print front element**
 
 ```cpp
 else if (type == 3) {
@@ -121,7 +121,7 @@ else if (type == 3) {
 
 ---
 
-## 🔶 **Ilustrasi Sederhana**
+##  **Ilustrasi Sederhana**
 
 Misalnya input:
 
