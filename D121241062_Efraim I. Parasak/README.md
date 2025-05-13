@@ -6,12 +6,19 @@
 **Difficulty    :** Medium  
 
 ## Short Approach Summary
-Soal ini meminta kita untuk membuat struktur data Queue (antrian) menggunakan dua buah stack. Queue bersifat FIFO (First-In, First-Out), artinya elemen yang masuk pertama harus keluar lebih dulu. Terdapat tiga jenis perintah:
 
-1 x → Tambah elemen x ke akhir antrian (enqueue)
+Queue adalah tipe data abstrak yang mempertahankan urutan elemen yang ditambahkan ke dalamnya, sehingga memungkinkan elemen tertua dihapus dari depan dan elemen baru ditambahkan ke belakang. Ini disebut struktur data First-In-First-Out (FIFO) karena elemen pertama yang ditambahkan ke dalam antrean (yaitu, elemen yang paling lama menunggu) selalu menjadi elemen pertama yang dihapus.
 
-2 → Hapus elemen di depan antrian (dequeue)
+Sebuah antrean dasar memiliki operasi-operasi berikut:
+Enqueue: menambahkan elemen baru ke akhir antrean.
+Dequeue: menghapus elemen dari bagian depan antrean dan mengembalikannya.
 
-3 → Tampilkan elemen di depan antrian
+Dalam soal ini, kita harus mengimplementasikan queue (antrian) menggunakan dua stack (tumpukan) . Kemudian proses query, di mana setiap query adalah salah satu dari tipe berikut:
 
-Program harus memproses sejumlah perintah ini dan mencetak hasil setiap perintah ke-3.
+1 x: Enqueue elemen ke akhir antrean.
+2: Menghilangkan elemen di bagian depan antrean.
+3: Mencetak elemen di bagian depan antrean.
+
+Program harus memproses sejumlah query (perintah/permintaan) dimana masing-masing query adalah salah satu dari ketiga tipe diatas dan mencetak elemen terdepan setiap perintah tipe-3.
+
+
