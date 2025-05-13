@@ -16,7 +16,9 @@ Dequeue: menghapus elemen dari bagian depan antrean dan mengembalikannya.
 Dalam soal ini, kita harus mengimplementasikan queue (antrian) menggunakan dua stack (tumpukan) . Kemudian proses query, di mana setiap query adalah salah satu dari tipe berikut:
 
 1 x: Enqueue elemen ke akhir antrean.
+
 2: Menghilangkan elemen di bagian depan antrean.
+
 3: Mencetak elemen di bagian depan antrean.
 
 Program harus memproses sejumlah query (perintah/permintaan) dimana masing-masing query adalah salah satu dari ketiga tipe diatas dan mencetak elemen terdepan setiap perintah tipe-3.
