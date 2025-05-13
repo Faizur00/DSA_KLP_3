@@ -7,9 +7,9 @@
 
 ## Short Approach Summary
 
-Queue adalah tipe data abstrak yang mempertahankan urutan elemen yang ditambahkan ke dalamnya, sehingga memungkinkan elemen tertua dihapus dari depan dan elemen baru ditambahkan ke belakang. Ini disebut struktur data First-In-First-Out (FIFO) karena elemen pertama yang ditambahkan ke dalam antrean (yaitu, elemen yang paling lama menunggu) selalu menjadi elemen pertama yang dihapus.
+Queue adalah tipe data abstrak yang mempertahankan urutan elemen yang ditambahkan ke dalamnya, sehingga disebut struktur data First-In-First-Out (FIFO) karena elemen pertama yang ditambahkan ke dalam antrean (yaitu, elemen yang paling lama menunggu) selalu menjadi elemen pertama yang dihapus.
 
-Sebuah antrean dasar memiliki operasi-operasi berikut:
+Sebuah queue (antrean) dasar memiliki operasi-operasi berikut:
 Enqueue: menambahkan elemen baru ke akhir antrean.
 Dequeue: menghapus elemen dari bagian depan antrean dan mengembalikannya.
 
