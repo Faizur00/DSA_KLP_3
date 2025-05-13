@@ -103,6 +103,9 @@ private:
 
 ---
 
+
+###  Fungsi `transferStack()`
+
 ```cpp
     void transferStack() {
         if (stack_dequeue.empty()) {
@@ -114,13 +117,14 @@ private:
     }
 ```
 
-###  Fungsi `transferStack()`
-
 * Tujuannya: memindahkan data dari `stack_enqueue` ke `stack_dequeue`
 * Ini dibutuhkan karena stack tidak bisa langsung mengakses elemen pertama yang masuk (FIFO).
 * Saat memindah dari `enqueue` ke `dequeue`, urutan data akan dibalik, sehingga urutan FIFO bisa dicapai.
 
 ---
+
+
+###  `enqueue(x)`
 
 ```cpp
     void enqueue(int x) {
@@ -128,11 +132,12 @@ private:
     }
 ```
 
-###  `enqueue(x)`
-
 * Menambahkan elemen baru ke stack `enqueue`.
 
 ---
+
+
+###  `dequeue()`
 
 ```cpp
     void dequeue() {
@@ -143,12 +148,13 @@ private:
     }
 ```
 
-###  `dequeue()`
-
 * Pastikan data sudah dipindah ke `stack_dequeue` jika perlu.
 * Hapus elemen paling depan (dari `stack_dequeue`).
 
 ---
+
+
+###  `printFront()`
 
 ```cpp
     void printFront() {
@@ -159,13 +165,14 @@ private:
     }
 ```
 
-###  `printFront()`
-
 * Memastikan urutan FIFO dulu, lalu tampilkan elemen depan queue (top dari `stack_dequeue`).
 
 ---
 
 ##  Fungsi `main()`
+
+
+* Input jumlah query (`q`).
 
 ```cpp
 int main() {
@@ -173,17 +180,21 @@ int main() {
     cin >> q;
 ```
 
-* Input jumlah query (`q`).
 
 ---
+
+
+* Membuat objek `queue` dari class `QueueUsingTwoStacks`.
 
 ```cpp
     QueueUsingTwoStacks queue;
 ```
 
-* Membuat objek `queue` dari class `QueueUsingTwoStacks`.
-
 ---
+
+
+* Membaca setiap query satu per satu.
+* Query selalu diawali angka `1`, `2`, atau `3`.
 
 ```cpp
     for (int i = 0; i < q; ++i) {
@@ -191,10 +202,12 @@ int main() {
         cin >> type;
 ```
 
-* Membaca setiap query satu per satu.
-* Query selalu diawali angka `1`, `2`, atau `3`.
-
 ---
+
+
+* `1 x`: enqueue x → panggil `enqueue(x)`
+* `2`: dequeue → panggil `dequeue()`
+* `3`: tampilkan elemen depan → panggil `printFront()`
 
 ```cpp
         if (type == 1) {
@@ -208,9 +221,6 @@ int main() {
         }
 ```
 
-* `1 x`: enqueue x → panggil `enqueue(x)`
-* `2`: dequeue → panggil `dequeue()`
-* `3`: tampilkan elemen depan → panggil `printFront()`
 
 ---
 
