@@ -15,9 +15,10 @@
 Implementasi **Queue (antrian)**, tapi menggunakan **dua Stack** (tumpukan).
 
 > Queue: First-In-First-Out (FIFO)
+
 > Stack: Last-In-First-Out (LIFO)
 
----
+
 
 
 ### Prompt (Sumber Soal)
@@ -31,6 +32,14 @@ Input Format The first line contains a single integer, , denoting the number of 
 Output Format For each query of type , print the value of the element at the front of the queue on a new line. 
 
 kerjakan dalam program c++
+
+
+
+---
+
+
+
+
 
 
 ###  **Penjelasan Singkat:**
