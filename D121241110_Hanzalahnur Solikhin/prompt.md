@@ -4,7 +4,7 @@
 
 ---
 
-### Sumber Soal
+## Sumber Soal
 You have an empty sequence, and you will be given  queries. Each query is one of these three types:
 
 1 x  -Push the element x into the stack.
@@ -48,16 +48,6 @@ Anda diminta membuat program yang dapat melakukan operasi pada sebuah **stack**,
 3. `3` – Cetak **elemen maksimum** yang ada di dalam stack
 
 ---
-
-## TUJUAN PROGRAM
-
-Menangani 3 jenis operasi stack:
-
-1. `1 x`: Push elemen x ke stack
-2. `2`: Pop elemen dari top stack
-3. `3`: Cetak nilai maksimum saat ini di stack
-
----
 ### Contoh Input:
 
 ```
@@ -84,192 +74,112 @@ Menangani 3 jenis operasi stack:
 
 ---
 
-## BAGIAN-BAGIAN KODE
+## **Tujuan Fungsi `getMax`:**
 
-### 1. **Inisialisasi dan Import**
+* Menerima array string (`operations`) berisi perintah:
 
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-```
-
-* `stdio.h`: untuk fungsi input/output (`scanf`, `printf`, dll).
-* `stdlib.h`: (opsional di sini), digunakan jika kita ingin pakai `malloc`, `atoi`, dll.
-* `string.h`: untuk operasi string seperti `strcmp`, `strcpy`, dsb.
+  * `"1 x"` → push x ke stack
+  * `"2"` → pop elemen dari stack
+  * `"3"` → simpan nilai maksimum saat ini di stack ke dalam hasil (`result`)
+* Mengembalikan array hasil dari semua operasi `"3"`.
 
 ---
 
-### 2. **Membuat Stack**
+## **Strategi Penyelesaian**
 
-```c
-#define MAX_SIZE 100000
+Kita butuh **dua stack**:
 
-int mainStack[MAX_SIZE];
-int maxStack[MAX_SIZE];
-int mainTop = -1;
-int maxTop = -1;
-```
-
-#### Penjelasan:
-
-* Kita menggunakan **dua stack**:
-
-  * `mainStack`: Stack utama yang menyimpan semua elemen.
-  * `maxStack`: Stack kedua yang menyimpan **nilai maksimum** saat ini.
-
-#### Konsep penting:
-
-* `mainTop` dan `maxTop`: menyimpan indeks paling atas (top) dari kedua stack.
-* `-1` berarti stack kosong.
+1. `mainStack`: untuk elemen biasa
+2. `maxStack`: untuk melacak maksimum saat ini
 
 ---
 
-### 3. **Fungsi Push**
+## **Langkah-langkah:**
 
-```c
-void push(int x) {
-    mainStack[++mainTop] = x;
-```
+### 1. Alokasikan stack dinamis atau statis
 
-* Tambahkan `x` ke stack utama, tingkatkan `mainTop`.
+### 2. Untuk setiap operasi:
 
-```c
-    if (maxTop == -1 || x >= maxStack[maxTop]) {
-        maxStack[++maxTop] = x;
-    } else {
-        maxStack[maxTop + 1] = maxStack[maxTop];
-        maxTop++;
-    }
-}
-```
+* Jika `"1 x"`: push ke `mainStack`, dan update `maxStack`
+* Jika `"2"`: pop dari keduanya
+* Jika `"3"`: ambil `top` dari `maxStack`, tambahkan ke hasil output
 
-#### Konsep:
-
-* Jika stack maksimum kosong **atau** `x` lebih besar dari maksimum sebelumnya:
-
-  * Tambahkan `x` ke `maxStack`.
-* Jika tidak:
-
-  * Tetap salin nilai maksimum sebelumnya ke atas (`maxTop+1`), agar nilai maksimum tetap akurat saat nanti pop.
+### 3. Kembalikan array hasil ke `main()`
 
 ---
 
-### 4. **Fungsi Pop**
+## **Implementasi Fungsi `getMax`**
+
+Tambahkan ke bawah kode kamu:
 
 ```c
-void pop() {
-    if (mainTop != -1) {
-        mainTop--;
-        maxTop--;
-    }
-}
-```
+int* getMax(int operations_count, char** operations, int* result_count) {
+    // Maksimum jumlah operasi "3" tidak melebihi operations_count
+    int* result = malloc(operations_count * sizeof(int));
+    int resultIndex = 0;
 
-#### Penjelasan:
+    // Stack utama dan stack maksimum
+    int* stack = malloc(operations_count * sizeof(int));
+    int* maxStack = malloc(operations_count * sizeof(int));
+    int top = -1;
+    int maxTop = -1;
 
-* `mainTop--`: Hapus elemen dari stack utama.
-* `maxTop--`: Ikut hapus dari stack maksimum karena kita maintain max secara paralel.
-
----
-
-### 5. **Fungsi GetMax**
-
-```c
-int getMax() {
-    return maxStack[maxTop];
-}
-```
-
-#### Penjelasan:
-
-* Karena setiap saat `maxStack` menyimpan nilai maksimum hingga posisi sekarang, cukup kembalikan elemen top-nya.
-
----
-
-### 6. **Fungsi Main**
-
-```c
-int main() {
-    int q;
-    scanf("%d", &q);
-    getchar(); // consume newline
-```
-
-* Membaca jumlah query (`q`) dari input.
-* `getchar()` untuk menyerap newline setelah angka, agar `fgets()` berikutnya tidak salah baca.
-
-```c
-    char operation[20];
-    for (int i = 0; i < q; i++) {
-        fgets(operation, sizeof(operation), stdin);
-```
-
-* Membaca tiap baris perintah (maksimal 20 karakter).
-* Misalnya `"1 97\n"`, `"2\n"`, `"3\n"`.
-
----
-
-### 7. **Eksekusi Query**
-
-```c
-        if (operation[0] == '1') {
+    for (int i = 0; i < operations_count; i++) {
+        if (operations[i][0] == '1') {
+            // Push operation
             int x;
-            sscanf(operation, "1 %d", &x);
-            push(x);
+            sscanf(operations[i], "1 %d", &x);
+
+            // Push ke stack utama
+            stack[++top] = x;
+
+            // Push ke maxStack jika kosong atau x lebih besar/sama
+            if (maxTop == -1 || x >= maxStack[maxTop]) {
+                maxStack[++maxTop] = x;
+            } else {
+                // Salin nilai maksimum sebelumnya (agar tetap sinkron saat pop)
+                maxStack[++maxTop] = maxStack[maxTop];
+            }
+
+        } else if (operations[i][0] == '2') {
+            // Pop operation
+            if (top >= 0) {
+                top--;
+                maxTop--;
+            }
+        } else if (operations[i][0] == '3') {
+            // Get max operation
+            if (maxTop >= 0) {
+                result[resultIndex++] = maxStack[maxTop];
+            }
         }
+    }
+
+    // Set jumlah hasil yang dikembalikan
+    *result_count = resultIndex;
+    return result;
+}
 ```
-
-* Jika operasi adalah `1 x`, ambil `x` dan panggil `push(x)`.
-
-```c
-        else if (operation[0] == '2') {
-            pop();
-        } else if (operation[0] == '3') {
-            printf("%d\n", getMax());
-        }
-```
-
-* Jika operasi `2`, hapus elemen paling atas.
-* Jika `3`, cetak nilai maksimum saat ini.
 
 ---
 
-## KONTEKS STACK MAKSIMUM
+## Penjelasan Konsep:
 
-### Kenapa pakai 2 stack?
-
-Misalkan input:
-
-```
-1 10
-1 5
-1 15
-3
-```
-
-* `mainStack` → `[10, 5, 15]`
-* `maxStack` → `[10, 10, 15]`
-
-Saat kita push:
-
-* `10`: max = 10
-* `5`: max tetap 10
-* `15`: max jadi 15
-
-Saat kita pop:
-
-* Hapus 15, max jadi 10 lagi karena `maxStack` juga di-pop.
-
-> Ini membuat kita bisa mengambil nilai maksimum dalam **O(1)** waktu (konstan), tanpa harus scan stack setiap saat.
+| Operasi | Penjelasan                                                         |
+| ------- | ------------------------------------------------------------------ |
+| `"1 x"` | Simpan x di `stack` dan perbarui `maxStack`                        |
+| `"2"`   | Hapus dari `stack` dan `maxStack`                                  |
+| `"3"`   | Ambil nilai maksimum dari `maxStack[top]` dan simpan ke `result[]` |
 
 ---
 
-## KESIMPULAN
+## Output:
 
-* Konsep kunci: stack, operasi paralel dengan stack maksimum.
-* Waktu eksekusi:
+* Fungsi `getMax()` akan menghasilkan array `int*` berisi semua nilai maksimum dari setiap perintah `"3"`.
 
-  * `push` → O(1)
-  * `pop` → O(1)
-  * `getMax` → O(1)
+---
+
+## Catatan Tambahan:
+
+* Gunakan `malloc()` untuk semua array karena data akan dikembalikan keluar fungsi.
+* Jangan lupa atur nilai `*result_count` agar `main()` bisa tahu panjang array hasil.
