@@ -1,7 +1,7 @@
 # Tugas DSA - QUEUE
 
-**Nama          :** Gabriel Tan  
-**NIM           :** D121241071  
+**Nama          :** Efraim Imanuel Parasak  
+**NIM           :** D121241062  
 **Problem Link  :** [Queue: Queue using Two Stacks - HackerRank](https://www.hackerrank.com/challenges/queue-using-two-stacks/problem)  
 **Difficulty    :** Medium  
 
