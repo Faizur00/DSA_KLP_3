@@ -1,11 +1,14 @@
 # AI Prompt dan Analisis
 
+
 **Link Percakapan:**  
 - https://chatgpt.com/share/6822e705-dd60-800b-8c92-88663fb74580
+  
 
 ### Pertanyaan Soal
 - Bagaimana cara mengimplementasikan operasi queue (enqueue, dequeue, front) menggunakan dua stack?
 - Bagaimana memastikan prinsip FIFO tetap terjaga meskipun menggunakan struktur LIFO?
+  
 
 ##  Tujuan Program
 
@@ -73,7 +76,6 @@ Berikut adalah penjelasan **baris demi baris dan konsep per konsep** dari kode *
 
 ---
 
-
 ##  Struktur Kode
 
 Kode ini memiliki:
@@ -85,14 +87,16 @@ Kode ini memiliki:
 
 ##  Penjelasan Class `QueueUsingTwoStacks`
 
+
+
+###  Dua Stack:
+
 ```cpp
 class QueueUsingTwoStacks {
 private:
     stack<int> stack_enqueue;
     stack<int> stack_dequeue;
 ```
-
-###  Dua Stack:
 
 * `stack_enqueue`: tempat masuknya data baru (seperti ujung belakang queue)
 * `stack_dequeue`: tempat keluarnya data (seperti ujung depan queue)
@@ -235,16 +239,9 @@ Setelah dua dequeue:
 
 ---
 
-##  Analogi
 
-Bayangkan dua ember:
 
-* Ember A (stack\_enqueue) → semua orang masuk
-* Ember B (stack\_dequeue) → dipakai buat mengeluarkan orang dari depan
-
-Kalau ember B kosong, kamu tuang semua dari A ke B → orang pertama yang masuk, sekarang ada di paling atas!
-
----###  **Kesimpulan Singkat**
+###  **Kesimpulan Singkat**
 
 Queue adalah struktur data FIFO (First-In-First-Out), sedangkan stack bersifat LIFO (Last-In-First-Out). Untuk membuat queue dengan dua stack:
 
