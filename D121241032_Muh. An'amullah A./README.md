@@ -3,7 +3,6 @@
 **Nama          :** Muh. An'amullah A.  
 **NIM           :** D121241032  
 **Problem Link  :** https://www.hackerrank.com/challenges/print-the-elements-of-a-linked-list/problem?isFullScreen=false 
-
 **Difficulty    :** Easy         
 
 ---
