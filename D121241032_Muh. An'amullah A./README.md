@@ -1,4 +1,4 @@
-# Tugas DSA - QUEUE
+# Tugas DSA - LINKED LIST
 
 **Nama          :** Muh. An'amullah A.  
 **NIM           :** D121241032  
