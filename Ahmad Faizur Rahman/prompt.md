@@ -2,7 +2,7 @@
 
 <p style="font-size:18px; font-weight:bold; margin-bottom:6px;"> AI Used: ChatGPT-4o</p>
 
-**Chat Link**: *[AI Prompt](https://chatgpt.com/share/68263275-f9ec-8006-8972-a845088ad39e)*
+**Chat Link**: *[AI Prompt](https://chatgpt.com/share/68267fb2-0cb4-8006-81a8-39040ca09658)*
 
 ***
 ***
@@ -21,46 +21,70 @@ How to approach this problem?
 
 ## A: 
 
-Okay, this problem is about converting a binary tree into a string and then back again. The trick is to do it in a way that preserves the structure of the tree, including all the None (null) children, or else you can’t rebuild it exactly. Here's the logic part you need to understand before even touching code:
-***
+## 🪄 Step-by-Step Logic to Approach Serialization and Deserialization
 
-### Serialization Logic (Tree → String)
-Imagine you're walking through the tree in preorder (visit root → left → right), and:
-* Every time you hit a node, you record its value.
-* you hit a `None` (a missing left or right child), you write `"null"` (or some other marker).
-* Join all the values with commas to make a single string.
+### 1. Understand What Needs to Be Captured
+You need to record:
+- Each node’s value
+- The structure (i.e., which node is left or right of another, and where it's null)
 
-Example: Tree
-```clojure
-    1
-   / \
-  2   3
-     / \
-    4   5
+Just values aren’t enough. For example, trees `[1,2,null]` and `[1,null,2]` have same values, but totally different structure.
+
+### 2. Choose a Tree Traversal Strategy
+You can pick one of these:
+- **Preorder (Root → Left → Right)** → super popular for this use-case
+- **Level-order (BFS)** → nice because it reflects structure more naturally like rows
+
+Let’s focus on **Preorder traversal** first—it’s clean and intuitive.
+
+### 3. Serialize (Tree ➝ String)
+Use recursion or stack to:
+- Visit node
+- Write value to string
+- If node is null, write some marker like `#` or `null`
+
+**Example using Preorder:**
+
+Tree:
 ```
-Preorder with nulls: `1,2,null,null,3,4,null,null,5,null,null`  
-Why this works: You’re capturing not just values, but also where values are missing. That’s what makes it possible to reconstruct the exact tree later.   
-***
+   1
+  / \
+ 2   3
+    / \
+   4   5
+```
 
-### Deserialization Logic (String → Tree)
-Now, you split the string by commas and use the values like a queue:
+Serialized string: `"1,2,#,#,3,4,#,#,5,#,#"`  
+(Each `#` is for null left/right child)
 
-* Take the first value, make it a `TreeNode`.
-* Then do the same recursively for the left and right children
-* If you see `"null"`, just return `None` (that’s your base case)  
+### 4. Deserialize (String ➝ Tree)
+You reverse the process:
+- Read values from the string (split by commas)
+- Rebuild tree recursively in the same traversal order (e.g., preorder)
+- When value is `#`, return null and move on
 
-This logic mirrors the preorder traversal:
-* Create node → build left subtree → build right subtree
+Use an index or a queue to track your position in the value list while deserializing.
 
-***
+### 5. Alternative Option – Level Order (BFS)
+This works too:
+- Use a queue, go level by level
+- Serialize with `null`s where child is missing
+- Deserialize by assigning children using a queue again
 
-### Summary
+It may be a bit more memory-heavy but sometimes easier to visualize
 
-You:
-* Use preorder traversal and include `"null"`s to serialize
-* Use recursive DFS and consume the values in order to deserialize
+---
 
-That's the full idea. No fancy data structures needed—just a string, a queue (or iterator), and recursion. You ready to implement it or wanna walk through an example more slowly?
+## ✧ Summary of Choices
+
+| Strategy     | Pros                        | Cons                      |
+|--------------|-----------------------------|---------------------------|
+| Preorder     | Simple recursion, elegant   | Might be tricky for big trees |
+| Level Order  | Matches how LeetCode does   | Slightly more verbose     |
+
+---
+
+Just tell me when you’re ready and I’ll help you write the code for it, or compare both methods if you want.
 
 
 
