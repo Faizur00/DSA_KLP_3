@@ -1,20 +1,34 @@
-Tugas DSA - LINKED LIST
-Nama : Muh. An'amullah A.
-NIM : D121241032
-Problem Link : [Queue: Queue using Two Stacks - HackerRank](https://www.hackerrank.com/challenges/print-the-elements-of-a-linked-list/problem?isFullScreen=false)
-Difficulty : Easy
+# Tugas DSA - QUEUE
 
-Short Approach Summary
-Queue adalah tipe data abstrak yang mempertahankan urutan elemen yang ditambahkan ke dalamnya, sehingga disebut struktur data First-In-First-Out (FIFO) karena elemen pertama yang ditambahkan ke dalam antrean (yaitu, elemen yang paling lama menunggu) selalu menjadi elemen pertama yang dihapus.
+**Nama          :** Muh. An'amullah A.  
+**NIM           :** D121241032  
+**Problem Link  :** https://www.hackerrank.com/challenges/print-the-elements-of-a-linked-list/problem?isFullScreen=false
+**Difficulty    :** Easy         
 
-Sebuah queue (antrean) dasar memiliki operasi-operasi berikut: Enqueue: menambahkan elemen baru ke akhir antrean. Dequeue: menghapus elemen dari bagian depan antrean dan mengembalikannya.
+---
 
-Dalam soal ini, kita harus mengimplementasikan queue (antrian) menggunakan dua stack (tumpukan) . Kemudian proses query, di mana setiap query adalah salah satu dari tipe berikut:
+### **Approach Summary: Print the Elements of a Linked List**
 
-1 x: Enqueue elemen ke akhir antrean.
+1. **Tujuan**: Mencetak nilai `data` dari setiap node dalam linked list satu per satu pada baris baru.
 
-2: Menghilangkan elemen di bagian depan antrean.
+2. **Input**: Sebuah pointer ke node pertama (head) dari singly linked list.
 
-3: Mencetak elemen di bagian depan antrean.
+3. **Proses**:
 
-Program harus memproses sejumlah query (perintah/permintaan) dimana masing-masing query adalah salah satu dari ketiga tipe diatas dan mencetak elemen terdepan setiap perintah tipe-3.
+   * Mulai dari node `head`.
+   * Selama node tidak `null`, cetak `node.data`.
+   * Lanjut ke `node.next`.
+
+4. **Output**:
+
+   * Nilai `data` setiap node, masing-masing pada baris baru.
+
+5. **Catatan**:
+
+   * Jangan membaca input dari `stdin`.
+   * Fokus pada traversal dan pencetakan data saja.
+
+---
+
+
+
