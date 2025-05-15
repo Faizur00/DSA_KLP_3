@@ -1,0 +1,20 @@
+Tugas DSA - LINKED LIST
+Nama : Muh. An'amullah A.
+NIM : D121241032
+Problem Link : [Queue: Queue using Two Stacks - HackerRank](https://www.hackerrank.com/challenges/print-the-elements-of-a-linked-list/problem?isFullScreen=false)
+Difficulty : Easy
+
+Short Approach Summary
+Queue adalah tipe data abstrak yang mempertahankan urutan elemen yang ditambahkan ke dalamnya, sehingga disebut struktur data First-In-First-Out (FIFO) karena elemen pertama yang ditambahkan ke dalam antrean (yaitu, elemen yang paling lama menunggu) selalu menjadi elemen pertama yang dihapus.
+
+Sebuah queue (antrean) dasar memiliki operasi-operasi berikut: Enqueue: menambahkan elemen baru ke akhir antrean. Dequeue: menghapus elemen dari bagian depan antrean dan mengembalikannya.
+
+Dalam soal ini, kita harus mengimplementasikan queue (antrian) menggunakan dua stack (tumpukan) . Kemudian proses query, di mana setiap query adalah salah satu dari tipe berikut:
+
+1 x: Enqueue elemen ke akhir antrean.
+
+2: Menghilangkan elemen di bagian depan antrean.
+
+3: Mencetak elemen di bagian depan antrean.
+
+Program harus memproses sejumlah query (perintah/permintaan) dimana masing-masing query adalah salah satu dari ketiga tipe diatas dan mencetak elemen terdepan setiap perintah tipe-3.
