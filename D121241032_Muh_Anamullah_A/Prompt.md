@@ -2,7 +2,7 @@
 
 
 **Link Percakapan:**  
-[-[ https://chatgpt.com/share/6822e705-dd60-800b-8c92-88663fb74580](https://chatgpt.com/share/6825f7a2-6bac-8002-aade-35485c88ff35)](https://chatgpt.com/share/6829e4c9-4998-8002-a60f-e86dd2241272)
+https://chatgpt.com/share/6829e4c9-4998-8002-a60f-e86dd2241272
   
 
 ### Prompt (Sumber Soal)
