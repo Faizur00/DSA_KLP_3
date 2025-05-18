@@ -52,14 +52,20 @@ void free_singly_linked_list(SinglyLinkedListNode* node) {
         free(temp);
     }
 }
-#include <stdio.h>
-#include <stdlib.h>
 
+// Complete the printLinkedList function below.
 
-
-// Fungsi untuk mencetak isi linked list
-void printLinkedList(struct SinglyLinkedListNode* head) {
-    struct SinglyLinkedListNode* current = head;
+/*
+ * For your reference:
+ *
+ * SinglyLinkedListNode {
+ *     int data;
+ *     SinglyLinkedListNode* next;
+ * };
+ *
+ */
+void printLinkedList(SinglyLinkedListNode* head) {
+    SinglyLinkedListNode* current = head;
     while (current != NULL) {
         printf("%d\n", current->data);
         current = current->next;
@@ -125,4 +131,3 @@ char* readline() {
 
     return data;
 }
-
