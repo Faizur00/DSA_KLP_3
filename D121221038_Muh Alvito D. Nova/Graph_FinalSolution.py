@@ -8,10 +8,8 @@ def dijkstra(graph, start, end):
 
     while queue:
         curr_dist, curr_node = heapq.heappop(queue)
-
         if curr_node == end:
             break
-
         for neighbor, weight in graph[curr_node].items():
             dist = curr_dist + weight
             if dist < distances[neighbor]:
@@ -19,7 +17,6 @@ def dijkstra(graph, start, end):
                 prev[neighbor] = curr_node
                 heapq.heappush(queue, (dist, neighbor))
 
-    # Rekonstruksi jalur
     path = []
     node = end
     while node:
@@ -29,7 +26,11 @@ def dijkstra(graph, start, end):
 
     return distances[end], path
 
-# Contoh graf rute antar stasiun
+# =========================
+# INPUT MANUAL DARI USER
+# =========================
+
+# Contoh graph (bisa dimodifikasi atau diganti input dari user jika diinginkan)
 city_map = {
     'A': {'B': 5, 'C': 10},
     'B': {'A': 5, 'C': 3, 'D': 2},
@@ -38,10 +39,15 @@ city_map = {
     'E': {'D': 4}
 }
 
-# Penggunaan
-start = 'A'
-end = 'E'
-distance, path = dijkstra(city_map, start, end)
+# Ambil input dari user
+print("Stasiun yang tersedia:", ', '.join(city_map.keys()))
+start = input("Masukkan stasiun awal: ").strip().upper()
+end = input("Masukkan stasiun tujuan: ").strip().upper()
 
-print(f"Jarak tercepat dari {start} ke {end}: {distance} menit")
-print("Rute tercepat:", " -> ".join(path))
+# Validasi input
+if start not in city_map or end not in city_map:
+    print("Stasiun yang dimasukkan tidak tersedia.")
+else:
+    distance, path = dijkstra(city_map, start, end)
+    print(f"\nJarak tercepat dari {start} ke {end}: {distance} menit")
+    print("Rute tercepat:", " -> ".join(path))
