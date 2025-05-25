@@ -1,6 +1,6 @@
 # AI Prompt dan Analisis
 **Link Percakapan:**  
-- [AI Prompt for Stack](https://chatgpt.com/c/682330b9-24d8-800d-94f1-27904c14d370)
+- [AI Prompt for Stack](https://chatgpt.com/c/6833849a-0fd4-8000-8e2d-ce0a193433fa)
 
 ---
 
@@ -87,99 +87,60 @@ Anda diminta membuat program yang dapat melakukan operasi pada sebuah **stack**,
 
 ## **Strategi Penyelesaian**
 
-Kita butuh **dua stack**:
+* **`mainStack`** menyimpan semua elemen yang di-*push*.
+* **`maxStack`** menyimpan nilai maksimum saat ini di posisi yang sama dengan elemen di `mainStack`.
 
-1. `mainStack`: untuk elemen biasa
-2. `maxStack`: untuk melacak maksimum saat ini
+  * Misalnya, jika `mainStack = [20, 26, 20]`, maka `maxStack = [20, 26, 26]`, karena 26 adalah nilai maksimum yang masih bertahan.
+* Dengan begitu, kita bisa:
 
----
-
-## **Langkah-langkah:**
-
-### 1. Alokasikan stack dinamis atau statis
-
-### 2. Untuk setiap operasi:
-
-* Jika `"1 x"`: push ke `mainStack`, dan update `maxStack`
-* Jika `"2"`: pop dari keduanya
-* Jika `"3"`: ambil `top` dari `maxStack`, tambahkan ke hasil output
-
-### 3. Kembalikan array hasil ke `main()`
-
+  * Menambahkan (`push`) nilai dan nilai maksimum bersamaan.
+  * Menghapus (`pop`) dengan tetap menjaga struktur.
+  * Mendapatkan nilai maksimum hanya dengan melihat `maxStack.top()` dalam O(1) waktu.
 ---
 
 ## **Implementasi Fungsi `getMax`**
 
-Tambahkan ke bawah kode kamu:
+Fungsi getMax yang dilengkapi dan dikomentari:
 
-```c
-int* getMax(int operations_count, char** operations, int* result_count) {
-    // Maksimum jumlah operasi "3" tidak melebihi operations_count
-    int* result = malloc(operations_count * sizeof(int));
-    int resultIndex = 0;
+```cpp
+vector<int> getMax(vector<string> operations) {
+    stack<int> mainStack;     // Stack utama untuk menyimpan elemen
+    stack<int> maxStack;      // Stack pembantu untuk menyimpan nilai maksimum saat ini
+    vector<int> result;       // Menyimpan hasil dari setiap query '3'
 
-    // Stack utama dan stack maksimum
-    int* stack = malloc(operations_count * sizeof(int));
-    int* maxStack = malloc(operations_count * sizeof(int));
-    int top = -1;
-    int maxTop = -1;
+    for (const string& op : operations) {
+        if (op[0] == '1') { // Query '1 x' => push x ke stack
+            // Ambil angka setelah spasi
+            int x = stoi(op.substr(2));
+            mainStack.push(x); // Push ke stack utama
 
-    for (int i = 0; i < operations_count; i++) {
-        if (operations[i][0] == '1') {
-            // Push operation
-            int x;
-            sscanf(operations[i], "1 %d", &x);
-
-            // Push ke stack utama
-            stack[++top] = x;
-
-            // Push ke maxStack jika kosong atau x lebih besar/sama
-            if (maxTop == -1 || x >= maxStack[maxTop]) {
-                maxStack[++maxTop] = x;
+            // Jika maxStack kosong atau x >= nilai maksimum sebelumnya, push x
+            if (maxStack.empty() || x >= maxStack.top()) {
+                maxStack.push(x);
             } else {
-                // Salin nilai maksimum sebelumnya (agar tetap sinkron saat pop)
-                maxStack[++maxTop] = maxStack[maxTop];
+                // Push kembali nilai maksimum terakhir agar selalu tersedia
+                maxStack.push(maxStack.top());
             }
-
-        } else if (operations[i][0] == '2') {
-            // Pop operation
-            if (top >= 0) {
-                top--;
-                maxTop--;
+        } else if (op[0] == '2') { // Query '2' => pop elemen dari stack
+            if (!mainStack.empty()) {
+                mainStack.pop();  // Hapus dari stack utama
+                maxStack.pop();   // Hapus juga dari maxStack
             }
-        } else if (operations[i][0] == '3') {
-            // Get max operation
-            if (maxTop >= 0) {
-                result[resultIndex++] = maxStack[maxTop];
+        } else if (op[0] == '3') { // Query '3' => ambil nilai maksimum
+            if (!maxStack.empty()) {
+                result.push_back(maxStack.top()); // Tambahkan nilai maksimum ke hasil
             }
         }
     }
 
-    // Set jumlah hasil yang dikembalikan
-    *result_count = resultIndex;
-    return result;
+    return result; // Kembalikan hasil dari semua query '3'
 }
+
 ```
-
----
-
-## Penjelasan Konsep:
-
-| Operasi | Penjelasan                                                         |
-| ------- | ------------------------------------------------------------------ |
-| `"1 x"` | Simpan x di `stack` dan perbarui `maxStack`                        |
-| `"2"`   | Hapus dari `stack` dan `maxStack`                                  |
-| `"3"`   | Ambil nilai maksimum dari `maxStack[top]` dan simpan ke `result[]` |
-
----
-
-## Output:
-
-* Fungsi `getMax()` akan menghasilkan array `int*` berisi semua nilai maksimum dari setiap perintah `"3"`.
 
 ---
 
 ## Catatan Tambahan:
 
-* Gunakan `malloc()` untuk semua array karena data akan dikembalikan keluar fungsi.
-* Jangan lupa atur nilai `*result_count` agar `main()` bisa tahu panjang array hasil.
+* Fungsi `substr(2)` digunakan karena input `'1 x'` memiliki spasi setelah angka 1, jadi kita ambil dari indeks ke-2 untuk mendapatkan nilai `x`.
+* Fungsi `stoi()` mengubah string menjadi integer.
