@@ -1,146 +1,148 @@
 # AI Prompt dan Analisis
 **Link Percakapan:**  
-- [AI Prompt for Stack](https://chatgpt.com/c/6833849a-0fd4-8000-8e2d-ce0a193433fa)
+- [AI Prompt for Stack](https://chatgpt.com/c/68338985-f250-800b-a8d0-7379dff0221b)
 
 ---
 
 ## Sumber Soal
-You have an empty sequence, and you will be given  queries. Each query is one of these three types:
+Implement a simple text editor. The editor initially contains an empty string, S. Perform Q operations of the following 4 types:
 
-1 x  -Push the element x into the stack.
-
-2    -Delete the element present at the top of the stack.
-
-3    -Print the maximum element in the stack.
-
-### Function Description
-
-Complete the getMax function in the editor below.
-
-getMax has the following parameters:
-- string operations[n]: operations as strings
-
-### Returns
-- int[]: the answers to each type 3 query
-
-### Input Format
-
-The first line of input contains an integer, . The next  lines each contain an above mentioned query.
-
-### Constraints
-- 1 ≤ n ≤ 100000  
-- 1 ≤ x ≤ 1000000000  
-- 1 ≤ type ≤ 3  
-
-
-All queries are valid.
+1. append (W) - Append string W to the end of S.
+2. delete (k) - Delete the last k characters of S.
+3. print (k) - Print the k-th character of S.
+4. undo () - Undo the last (not previously undone) operation of type 1 or 2, reverting S to the state it was in prior to that operation.
 
 ---
 
 ### Deskripsi Soal
+Kamu diminta untuk membuat editor teks sederhana yang dapat melakukan beberapa operasi dasar terhadap sebuah string kosong yang awalnya bernilai "" (kosong). Tugasmu adalah mengimplementasikan fungsi-fungsi berikut:
 
-Anda diminta membuat program yang dapat melakukan operasi pada sebuah **stack**, yang mendukung tiga jenis operasi:
+### Jenis Operasi yang Didukung
+Program harus mendukung 4 jenis operasi:
+1. **Append**
+   Format: `1 <string>`
+   Tambahkan string `<string>` ke **akhir** dari string utama `S`.
+2. **Delete**
+   Format: `2 <k>`
+   Hapus **`k` karakter terakhir** dari string `S`.
+3. **Print**
+   Format: `3 <k>`
+   Cetak karakter ke-`k` dari string `S` (menggunakan indeks **1-based**, artinya karakter pertama adalah indeks 1).
+4. **Undo**
+   Format: `4`
+   Batalkan operasi `append` atau `delete` terakhir yang dilakukan (yang belum di-undo sebelumnya). Kembalikan string ke kondisi **sebelum operasi itu terjadi**.
 
-### Jenis Operasi:
+## Input Format
+* Baris pertama: Sebuah bilangan bulat `Q` — jumlah total operasi yang akan dilakukan.
+* Diikuti `Q` baris berikutnya, masing-masing merepresentasikan satu operasi dalam salah satu dari empat format di atas.
 
-1. `1 x` – Tambahkan elemen `x` ke dalam stack
-2. `2` – Hapus elemen paling atas dari stack
-3. `3` – Cetak **elemen maksimum** yang ada di dalam stack
+### Output Format
+* Untuk setiap operasi bertipe `3`, cetak satu baris output yang berisi karakter ke-`k` dari string `S`.
+
+### Batasan (Constraints)
+* Total panjang semua string yang ditambahkan ke `S` tidak melebihi `10^6` karakter.
+* Jumlah operasi `Q` tidak melebihi `10^5`.
+* Semua karakter adalah huruf kecil (a–z).
+* Operasi yang diberikan **selalu valid** (tidak akan ada operasi yang menyebabkan kesalahan seperti print dari indeks yang tidak ada, atau delete melebihi panjang string).
+
 
 ---
 ### Contoh Input:
 
 ```
-10
-1 97
-2
-1 20
-1 26
-1 20
-3
-2
-3
-2
-3
+STDIN   Function
+-----   --------
+8       Q = 8
+1 abc   ops[0] = '1 abc'
+3 3     ops[1] = '3 3'
+2 3     ...
+1 xy
+3 2
+4 
+4 
+3 1
 ```
 
 ### Contoh Output:
 
 ```
-26
-26
-20
+c
+y
+a
 ```
 
 ---
 
-## **Tujuan Fungsi `getMax`:**
+## Penjelasan
 
-* Menerima array string (`operations`) berisi perintah:
-
-  * `"1 x"` → push x ke stack
-  * `"2"` → pop elemen dari stack
-  * `"3"` → simpan nilai maksimum saat ini di stack ke dalam hasil (`result`)
-* Mengembalikan array hasil dari semua operasi `"3"`.
+1. `1 abc` → S = "abc"
+2. `3 3` → cetak karakter ke-3 = "c"
+3. `2 3` → hapus 3 karakter → S = ""
+4. `1 xy` → S = "xy"
+5. `3 2` → cetak karakter ke-2 = "y"
+6. `4` → undo `1 xy` → kembali jadi `""`
+7. `4` → undo `2 3` → kembali jadi `"abc"`
+8. `3 1` → cetak karakter ke-1 = "a"
 
 ---
 
-## **Strategi Penyelesaian**
-
-* **`mainStack`** menyimpan semua elemen yang di-*push*.
-* **`maxStack`** menyimpan nilai maksimum saat ini di posisi yang sama dengan elemen di `mainStack`.
-
-  * Misalnya, jika `mainStack = [20, 26, 20]`, maka `maxStack = [20, 26, 26]`, karena 26 adalah nilai maksimum yang masih bertahan.
-* Dengan begitu, kita bisa:
-
-  * Menambahkan (`push`) nilai dan nilai maksimum bersamaan.
-  * Menghapus (`pop`) dengan tetap menjaga struktur.
-  * Mendapatkan nilai maksimum hanya dengan melihat `maxStack.top()` dalam O(1) waktu.
----
-
-## **Implementasi Fungsi `getMax`**
-
-Fungsi getMax yang dilengkapi dan dikomentari:
-
+## **Implementasi Lengkap**
 ```cpp
-vector<int> getMax(vector<string> operations) {
-    stack<int> mainStack;     // Stack utama untuk menyimpan elemen
-    stack<int> maxStack;      // Stack pembantu untuk menyimpan nilai maksimum saat ini
-    vector<int> result;       // Menyimpan hasil dari setiap query '3'
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
 
-    for (const string& op : operations) {
-        if (op[0] == '1') { // Query '1 x' => push x ke stack
-            // Ambil angka setelah spasi
-            int x = stoi(op.substr(2));
-            mainStack.push(x); // Push ke stack utama
+int main() {
+    int Q;
+    cin >> Q;
+    
+    string S = "";                   // string utama
+    stack<string> history;          // menyimpan riwayat untuk undo
 
-            // Jika maxStack kosong atau x >= nilai maksimum sebelumnya, push x
-            if (maxStack.empty() || x >= maxStack.top()) {
-                maxStack.push(x);
-            } else {
-                // Push kembali nilai maksimum terakhir agar selalu tersedia
-                maxStack.push(maxStack.top());
-            }
-        } else if (op[0] == '2') { // Query '2' => pop elemen dari stack
-            if (!mainStack.empty()) {
-                mainStack.pop();  // Hapus dari stack utama
-                maxStack.pop();   // Hapus juga dari maxStack
-            }
-        } else if (op[0] == '3') { // Query '3' => ambil nilai maksimum
-            if (!maxStack.empty()) {
-                result.push_back(maxStack.top()); // Tambahkan nilai maksimum ke hasil
+    while (Q--) {
+        int op;
+        cin >> op;
+
+        if (op == 1) { // Append W
+            string W;
+            cin >> W;
+            history.push(S); // simpan state sebelum berubah
+            S += W;          // tambahkan ke string
+        } 
+        else if (op == 2) { // Delete k
+            int k;
+            cin >> k;
+            history.push(S); // simpan state sebelum berubah
+            S.erase(S.size() - k); // hapus k karakter dari belakang
+        } 
+        else if (op == 3) { // Print k-th character
+            int k;
+            cin >> k;
+            cout << S[k - 1] << '\n'; // k dimulai dari 1
+        } 
+        else if (op == 4) { // Undo
+            if (!history.empty()) {
+                S = history.top(); // kembalikan state sebelumnya
+                history.pop();     // hapus dari riwayat
             }
         }
     }
-
-    return result; // Kembalikan hasil dari semua query '3'
+    
+    return 0;
 }
-
 ```
 
 ---
 
-## Catatan Tambahan:
-
-* Fungsi `substr(2)` digunakan karena input `'1 x'` memiliki spasi setelah angka 1, jadi kita ambil dari indeks ke-2 untuk mendapatkan nilai `x`.
-* Fungsi `stoi()` mengubah string menjadi integer.
+### Penjelasan Tiap Operasi:
+* **`1 W`**:
+  * Simpan `S` di stack → agar bisa di-*undo*.
+  * Tambahkan `W` ke `S`.
+* **`2 k`**:
+  * Simpan `S` di stack.
+  * Hapus `k` karakter terakhir dari `S`.
+* **`3 k`**:
+  * Cetak karakter ke-`k` dari `S`. (Karena index mulai dari 1, gunakan `S[k-1]`.)
+* **`4`**:
+  * Ambil nilai terakhir dari `history` dan tetapkan ke `S`.
