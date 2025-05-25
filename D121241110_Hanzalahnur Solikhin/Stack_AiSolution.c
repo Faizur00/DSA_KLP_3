@@ -1,93 +1,43 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <stack>
+#include <string>
 using namespace std;
 
-string ltrim(const string &);
-string rtrim(const string &);
-
-vector<int> getMax(vector<string> operations) {
-stack<int> mainStack;    
-    stack<int> maxStack;    
-    vector<int> result;      
+int main() {
+    int Q;
+    cin >> Q;
     
-    for (const string& op : operations) {
-        if (op[0] == '1') { 
-            int x = stoi(op.substr(2));
-            mainStack.push(x); 
+    string S = "";                   
+    stack<string> history;        
 
-            if (maxStack.empty() || x >= maxStack.top()) {
-                maxStack.push(x);
-            } else {
-                maxStack.push(maxStack.top());
-            }
-        } else if (op[0] == '2') { 
-            if (!mainStack.empty()) {
-                mainStack.pop();  
-                maxStack.pop(); 
-            }
-        } else if (op[0] == '3') { 
-            if (!maxStack.empty()) {
-                result.push_back(maxStack.top()); 
+    while (Q--) {
+        int op;
+        cin >> op;
+
+        if (op == 1) { 
+            string W;
+            cin >> W;
+            history.push(S); 
+            S += W;        
+        } 
+        else if (op == 2) { 
+            int k;
+            cin >> k;
+            history.push(S); 
+            S.erase(S.size() - k); 
+        } 
+        else if (op == 3) { 
+            int k;
+            cin >> k;
+            cout << S[k - 1] << '\n'; 
+        } 
+        else if (op == 4) { 
+            if (!history.empty()) {
+                S = history.top();
+                history.pop();     
             }
         }
     }
-
-    return result; 
-}
-
-int main()
-{
-    ofstream fout(getenv("OUTPUT_PATH"));
-
-    string n_temp;
-    getline(cin, n_temp);
-
-    int n = stoi(ltrim(rtrim(n_temp)));
-
-    vector<string> ops(n);
-
-    for (int i = 0; i < n; i++) {
-        string ops_item;
-        getline(cin, ops_item);
-
-        ops[i] = ops_item;
-    }
-
-    vector<int> res = getMax(ops);
-
-    for (size_t i = 0; i < res.size(); i++) {
-        fout << res[i];
-
-        if (i != res.size() - 1) {
-            fout << "\n";
-        }
-    }
-
-    fout << "\n";
-
-    fout.close();
-
+    
     return 0;
-}
-
-string ltrim(const string &str) {
-    string s(str);
-
-    s.erase(
-        s.begin(),
-        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))
-    );
-
-    return s;
-}
-
-string rtrim(const string &str) {
-    string s(str);
-
-    s.erase(
-        find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(),
-        s.end()
-    );
-
-    return s;
 }
